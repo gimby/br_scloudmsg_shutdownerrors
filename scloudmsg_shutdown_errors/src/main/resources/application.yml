@@ -1,0 +1,54 @@
+spring:
+  cloud:
+    stream:
+      defaultBinder: rabbit
+      default:
+        consumer:
+          #concurrency: 5
+          maxAttempts: 2
+          backOffInitialInterval: 500
+          backOffMaxInterval: 1000
+          backOffMultiplier: 2.0
+      function:
+        definition: helloWorld
+      bindings:
+        helloWorld-in-0:
+          group: helloworld
+          destination: helloworld
+          content-type: application/json
+          consumer:
+            maxAttempts: 1
+        helloWorld-out-0:
+          group: helloworld
+          destination: helloworld
+          content-type: application/json
+          producer:
+            required-groups:
+              - helloworld
+      binders:
+        rabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                username: guest
+                password: guest
+                host: localhost
+                virtualHost: helloworld
+      rabbit:
+        default:
+          consumer:
+            autoBindDlq: true
+            republishToDlq: true
+            transacted: true
+          producer:
+            autoBindDlq: true
+            republishToDlq: true
+            transacted: true
+
+  # This is required for health check to work properly if virtualHost is not "/".
+  rabbitmq:
+    username: ${spring.cloud.stream.binders.rabbit.environment.spring.rabbitmq.username}
+    password: ${spring.cloud.stream.binders.rabbit.environment.spring.rabbitmq.password}
+    host: ${spring.cloud.stream.binders.rabbit.environment.spring.rabbitmq.host}
+    virtualHost: ${spring.cloud.stream.binders.rabbit.environment.spring.rabbitmq.virtualHost}
