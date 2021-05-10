@@ -7,11 +7,14 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.4.5</version>
 	</parent>
-	<groupId>nl.gumby.helloworld</groupId>
-	<artifactId>scloudmessaging</artifactId>
+	<groupId>nl.gumby.bugreports</groupId>
+	<artifactId>scloudmsg_shutdownfailures</artifactId>
 	<version>0.0.0</version>
-	<name>scloudmessaging</name>
-	<description>scloudmessaging</description>
+	<name>scloudmessaging shutdown failures</name>
+	<description>A minimalistic hello world application which demonstrates that upon shutting down the application
+	             (CTRL+C if running from a shell), the application will randomly error out with an exception. It does
+	             not always happen but it happens frequently and the likelihood seems to increase if concurrency
+	             is enabled.</description>
 
 	<properties>
 		<java.version>11</java.version>
